@@ -1,0 +1,46 @@
+// import { withAuth } from 'next-auth/middleware';
+
+// export default withAuth({
+//   callbacks: {
+//     async authorized({ token }) {
+//       // Check if there's a token and if the provider is Google, enforce specific domains
+//       if (token) {
+//         if (token.provider === 'google') {
+//           const allowedDomains = ['example.com'];
+//           const emailDomain = token?.email?.split('@')[1];
+//           if (!allowedDomains.includes(emailDomain!)) {
+//             return false;
+//           }
+//         }
+//         return true;
+//       }
+//       return false;
+//     },
+//   },
+// });
+
+// export const config = { matcher: ['/'] };
+
+
+import { withAuth } from 'next-auth/middleware';
+
+export default withAuth({
+  callbacks: {
+    async authorized({ token }) {
+      if (process.env.NEXTAUTH_ENABLED === 'false' && token?.email) {
+        return true;
+      }
+      if (!token?.email) {
+        return false;
+      } else {
+        const pattern = process.env.NEXTAUTH_EMAIL_PATTERN || '';
+        if (!pattern || token?.email?.match('^' + pattern + '$')) {
+          return true;
+        }
+        return false;
+      }
+    },
+  },
+});
+
+export const config = { matcher: ['/'] };

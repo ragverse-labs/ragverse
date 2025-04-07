@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Vedas</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background-color: #2c3e50;
+            padding: 10px;
+            text-align: center;
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+
+        /* Navigation */
+        .nav {
+            background-color: rgb(35, 34, 34);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            left: 0;
+            z-index: 999;
+        }
+
+        .nav a {
+            margin: 0 20px;
+            text-decoration: none;
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: #212121;
+        }
+
+        /* Banner */
+        .banner {
+            width: 100%;
+            height: 500px;
+            background: url('../images/our-vedas-banner.jpg') center/cover no-repeat;
+        }
+
+        /* Banner
+.ragitworks {
+    width: 100%;
+    height: 500px;
+    background: url('../images/our-vedas-how-it-works.png') center/cover no-repeat;
+} */
+
+        /* Sections */
+        .section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            font-size: 2em;
+            color: #2c3e50;
+            border-bottom: 3px solid teal;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .section p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #34495e;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #000;
+            color: #fff;
+            padding: 30px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .footer p a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        /* Banner Button */
+        .banner-button {
+            background-color: #efc36a;
+            color: rgb(2, 50, 50);
+            padding: 15px 30px;
+            font-size: 1.5em;
+            text-decoration: solid;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            top: 80%;
+            left: 75%;
+            transform: translateY(-50%);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .banner-button:hover {
+            background-color: rgb(17, 223, 223);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                padding: 10px;
+                align-items: center;
+            }
+
+            .nav a {
+                margin: 5px 0;
+                font-size: 1em;
+            }
+
+            .banner {
+                height: 300px;
+            }
+
+            .banner-button {
+                top: 70%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 1.2em;
+                padding: 10px 20px;
+            }
+
+            .section {
+                padding: 20px 15px;
+                width: 100%;
+            }
+
+            .section h2 {
+                font-size: 1.6em;
+                margin-bottom: 15px;
+            }
+
+            .section p {
+                font-size: 1em;
+                line-height: 1.6;
+            }
+
+            .footer p a {
+                display: block;
+                margin: 10px 0;
+                font-size: 0.9em;
+            }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        /* testing */
+
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e9e9e9;
+        }
+
+        th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Section -->
+    <!-- <div class="header">
+        <h1>Our Vedas</h1>
+    </div> -->
+    <div class="banner"> <a href="https://ourvedas.in" class="banner-button">Start Knowing....</a></div>
+    <!-- Navigation Menu -->
+    <div class="nav">
+        <a href="#home">Home</a>
+        <a href="#itworks">How It Works?</a>
+        <a href="#books">Ancient Texts</a>
+        <a href="#language">Language</a>
+        <a href="#ragverse">RagVerse</a>
+    </div>
+
+
+
+    <!-- Home Section -->
+    <section id="home" class="section">
+
+        <h2>Our Motivation</h2>
+        <p>Ancient Indian Scriptures and Texts contain profound and deep wisdom that is often challenging to understand
+            and relate to. However, a significant issue lies in the fact that these texts are open to interpretation,
+            adaptation, and improvisation, leading to the potential loss of their original essence.</p>
+
+
+        <h2>What we learn is defined by how we learn</h2>
+        <!-- <p><strong>What we learn is defined by how we learn.</strong></p> -->
+        <p>In ancient times, the Guru-Shishya (teacher-disciple) relationship was central to learning, governed by broad
+            principles that encouraged critical thinking and personal interpretation within a structured framework. Over
+            time, the scope for individual interpretation has diminished. Today, we face a critical question: Are we
+            learning through our own instinctive thoughts, or are we merely recalling someone else's beliefs? This does
+            not suggest that learning should be without a foundation, but rather asks if we can provide a more original
+            base from which people can derive their own interpretations within established guiding principles.</p>
+
+
+
+        <h2>The Challenge of Modern Interpretations</h2>
+        <p>Now, imagine adding AI to this complex equation. With the advent of Large Language Models (LLMs) and
+            frameworks like GPTs, which are trained on digitized versions of these ancient texts, the problem becomes
+            even more pronounced. The crucial question arises: What is the truth according to the ancient texts,
+            especially as more knowledge builds upon these constructs?</p>
+        <p>As we engage with these texts in their modern delivery formats, particularly given the scarcity of original
+            manuscripts, we often encounter the author’s interpretation rather than the text’s purest form. This limits
+            our ability to draw our own conclusions, as was originally intended by the sages who composed these works.
+        </p>
+
+
+
+        <h2>The Intricacies of Questions and Answers</h2>
+        <p>The relationship between questions and answers is fundamental to learning: answers emerge from questions, and
+            questions from answers. Imagine the possibilities of learning if we could ask questions freely, without the
+            discomfort or limitations of not having direct access to a "teacher" or "author." This dynamic interplay is
+            crucial to developing a deeper understanding, yet it is often constrained in the modern context.</p>
+
+
+
+        <h2>The Language Barrier</h2>
+        <p>The diversity of Indic languages is both a blessing and a challenge. Some languages have greater
+            accessibility in the realm of knowledge, while others remain obscure. Imagine if all languages were given an
+            equal opportunity to be understood and to share their wisdom. This would open up vast new avenues for
+            learning and interpretation, ensuring that no language or dialect is left behind in the pursuit of
+            knowledge.</p>
+
+
+
+        <h2>Introducing "Our Vedas"</h2>
+        <p>In response to these challenges, we present "Our Vedas"—a sincere effort to return the gems of our ancient
+            Indian texts to everyone for open conversation. Our aim is to provide answers that are unaltered and
+            faithful to the original teachings, allowing you to explore and interpret the texts as they were intended.
+        </p>
+        <p>Welcome to a new era of learning and discovery, where you can "Know by Asking," with Our Vedas as your guide.
+        </p>
+
+
+    </section>
+    <section id="itworks" class="section">
+        <h2>Our Vedas - How It Works</h2>
+        <p>
+            Our Vedas leverages a Retrieval-Augmented Generation (RAG) pipeline to support seamless multi-Indic language
+            interactions.
+            Here’s how the process flows: user input in an Indic language is first translated into English, enabling the
+            language
+            model to perform retrieval and generation tasks effectively. The RAG pipeline then processes this English
+            input, generating
+            a response based on relevant information. Finally, the response is translated back into the original Indic
+            language before
+            being delivered to the user.
+        </p>
+        <p>
+            Currently, AWS Translate is used for these translations, with plans to integrate Indic Translate and other
+            language services
+            in the future. This pipeline ensures accurate, meaningful responses while retaining the linguistic nuances
+            of Indic languages.
+        </p>
+        <p><i>A diagram below illustrates this process.</i></p>
+
+        <!-- Diagram image -->
+        <img src="../images/our-vedas-how-it-works.png" alt="Diagram illustrating the RAG process for Our Vedas"
+            style="max-width: 100%; height: auto; display: block; margin: 0 auto;" />
+    </section>
+    </section>
+
+
+    <!-- Books Section -->
+    <section id="books" class="section">
+        <h2>Ancient Texts</h2>
+        <h3>Bhagavad Gita</h3>
+        <h4>Translation and commentaries compiled by Mataji Parama Karuna Devi </h4>
+        <p>The Bhagavad Gita is a 700-verse scripture that is part of the Indian epic Mahabharata. It is a dialogue
+            between Prince Arjuna and the god Krishna, who serves as his charioteer. In the Gita, Krishna imparts
+            spiritual wisdom and guidance to Arjuna, covering topics such as duty, righteousness, and the nature of
+            reality. The text is revered for its teachings on living a life of dharma (duty) and is considered one of
+            the most important spiritual classics in Hinduism.</p>
+
+        <h3>Mahabharata</h3>
+        <h4>Translated into English Prose from the Original Sanskrit Text by Kisari Mohan Ganguli </h4>
+        <p>The Mahabharata is one of the two major Sanskrit epics of ancient India, the other being the Ramayana. It
+            narrates the Kurukshetra War between the Pandavas and the Kauravas, two groups of royal cousins, and the
+            fates of the Kuru dynasty. The Mahabharata is the longest epic poem ever written, and it includes a vast
+            array of stories, moral lessons, and philosophical discourses, including the Bhagavad Gita.</p>
+
+        <h3>Ramayana</h3>
+        <h4>Translated into English by Hari Prasad Shastri </h4>
+        <p>The Ramayana is an ancient Indian epic that tells the story of Prince Rama's quest to rescue his wife Sita
+            from the demon king Ravana. Composed by the sage Valmiki, the Ramayana is not just a tale of heroism but
+            also a profound exploration of duty, righteousness, and devotion. The text is highly revered in Hindu
+            culture and has significantly influenced art, culture, and religious practices in India and beyond.</p>
+
+        <h3>Arthashastra</h3>
+        <h4>Kautilya's Arthashastra Translated into English by R. Shamasastry</h4>
+        <p>The Arthashastra is an ancient Indian treatise on statecraft, economic policy, and military strategy,
+            attributed to the scholar Kautilya (also known as Chanakya). Written around the 3rd century BCE, it is one
+            of the earliest works on politics and governance. The Arthashastra offers detailed advice on various aspects
+            of ruling, including diplomacy, war, taxation, law, and administration, and it is considered a foundational
+            text in the study of ancient Indian politics.</p>
+
+        <h3>Swami Vivekananda's Works</h3>
+        <h4>Swami Vivekananda</h4>
+        <p>Swami Vivekananda was a 19th-century Indian Hindu monk and a key figure in introducing Vedanta and Yoga to
+            the Western world. His works include a series of lectures, essays, and books that focus on spirituality,
+            self-realization, and the practical application of Vedantic teachings in daily life. Vivekananda's teachings
+            emphasize the importance of self-discipline, compassion, and service to humanity, and his writings continue
+            to inspire millions around the world.</p>
+
+        <h3>Yoga Sutras of Patanjali</h3>
+        <h4>Translated into English by Yogi Madhvācārya / Michael Beloved </h4>
+        <p>The Yoga Sutras of Patanjali is a foundational text on yoga philosophy, written by the sage Patanjali.
+            Composed of 196 sutras (aphorisms), the text outlines the eight limbs of yoga, which guide practitioners on
+            a path of self-discipline, mental focus, and spiritual enlightenment. The Yoga Sutras are widely regarded as
+            the authoritative source on the practice and philosophy of yoga, and they have greatly influenced modern
+            yoga practices.</p>
+
+        <h3>The Rig Veda</h3>
+        <h4>Translated into English by Tulsi Ram</h4>
+        <p>
+            The Rig Veda is one of the oldest and most revered texts of ancient Indian literature, composed in Sanskrit
+            by the
+            early Vedic sages. This anthology, curated and translated by Wendy Doniger, presents a selection of one
+            hundred and
+            eight hymns from the Rig Veda, offering readers a window into the spiritual, philosophical, and cultural
+            dimensions
+            of early Vedic civilization. The hymns encompass themes of creation, cosmic order, and devotion, providing
+            insight
+            into the beliefs and practices of the Vedic people. Doniger’s translation and annotations make these complex
+            hymns
+            accessible to modern readers, preserving the richness of one of the world's oldest spiritual texts.
+        </p>
+
+        <h3>The Upanishads</h3>
+        <h4>Translated into English by Eknath Easwaran</h4>
+        <p>
+            The Upanishads are a collection of ancient Indian texts that explore profound spiritual insights and
+            philosophical concepts.
+            Eknath Easwaran’s translation brings these timeless teachings to a contemporary audience, capturing the
+            essence of the
+            Upanishads' teachings on self-realization, the nature of reality, and the interconnectedness of all life.
+            Through accessible language
+            and thoughtful commentary, Easwaran provides readers with a clear and engaging introduction to these
+            foundational texts of
+            Hindu philosophy, guiding them on a journey of inner exploration and wisdom.
+        </p>
+
+        <h3>The Gospel of Ramakrishna</h3>
+        <h4>Revised by Swami Abhedananda</h4>
+        <p>
+            <i>The Gospel of Ramakrishna</i> captures the teachings, wisdom, and spiritual experiences of Sri
+            Ramakrishna, one of India's
+            most revered spiritual figures. Originally compiled by M., a disciple of Ramakrishna, this text presents the
+            essence of his
+            teachings on devotion, divine love, and self-realization. Swami Abhedananda’s revision provides additional
+            context and
+            insight, making this profound work accessible to a broader audience. Through dialogues, parables, and simple
+            yet profound
+            insights, <i>The Gospel of Ramakrishna</i> serves as a guiding light for spiritual seekers and those
+            interested in the path of
+            devotion.
+        </p>
+
+    </section>
+
+    <section id="language" class="section">
+        <h2>Diverse Languages</h2>
+        <p>India is home to a vast array of languages, each with its own unique script, grammar, and literary tradition.
+            This linguistic diversity enriches the cultural tapestry of the nation, offering multiple perspectives on
+            ancient wisdom and modern thought.</p>
+
+        <!-- <p>For more information, you can explore the <a href="https://ai4bharat.iitm.ac.in/indic-trans2/"
+                target="_blank">IndicTrans2 models</a> by AI4Bharat.</p> -->
+
+
+        <h3>Languages Supported by AWS Translate:</h3>
+        <table>
+            <tr>
+                <td>English (eng_Latn)</td>
+                <td>Bengali (ben_Beng)</td>
+            </tr>
+            <tr>
+                <td>Hindi (hin_Deva)</td>
+                <td>Gujarati (guj_Gujr)</td>
+            </tr>
+            <tr>
+                <td>Kannada (kan_Knda)</td>
+                <td>Malayalam (mal_Mlym)</td>
+            </tr>
+            <tr>
+                <td>Tamil (tam_Taml)</td>
+                <td>Marathi (mar_Deva)</td>
+            </tr>
+            <tr>
+                <td>Telugu (tel_Telu)</td>
+                <td>Punjabi (pan_Guru)</td>
+            </tr>
+        </table>
+
+
+    </section>
+
+    <!-- RagVerse Section -->
+    <section id="ragverse" class="section">
+        <h2>RagVerse</h2>
+        <p>LLMs, NLP, and GPTs provide essential building blocks, but creating a fully integrated product ecosystem
+            requires the coordination of multiple frameworks and tools.
+        <p><strong> RagVerse </strong> unifies all the components necessary for a comprehensive RAG solution, enabling
+            seamless integration and processing with your knowledge base.
+            Explore the architecture, LLMs, models, NLP techniques, and RAG pipeline of RagVerse, designed to help you
+            build and manage your own <strong> Knowledge Bank.</strong></p>
+        </p>
+    </section>
+
+    <!-- Footer Section -->
+    <div class="footer" style="background-color: #000; color: #fff; padding: 30px; text-align: center;">
+        <p>&copy; 2024 Our Vedas. All rights reserved.</p>
+        <p>
+            <a href="#privacy-policy" style="color: #fff; text-decoration: none; margin: 0 10px;">Privacy Policy</a> |
+            <a href="#terms-of-service" style="color: #fff; text-decoration: none; margin: 0 10px;">Terms of Service</a>
+            |
+            <a href="#contact-us" style="color: #fff; text-decoration: none; margin: 0 10px;">Contact Us</a>
+        </p>
+    </div>
+
+
+</body>
+
+</html>

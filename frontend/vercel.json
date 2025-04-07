@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "pages/api/*.ts": {
+      "includeFiles": "./public/tiktoken_bg.wasm"
+    }
+  }
+}
