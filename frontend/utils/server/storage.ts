@@ -23,8 +23,7 @@ export async function getDb(): Promise<Db> {
   if (_db !== null) {
     return _db;
   }
-  let MONGODB_URI='mongodb://root:example@mongodb:27017/'
-  process.env.MONGODB_URI = MONGODB_URI;
+
   const client = new MongoClient(process.env.MONGODB_URI, { monitorCommands: true });
  const MAX_RETRIES = 5;
  const RETRY_DELAY_MS = 5000;

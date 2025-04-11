@@ -23,9 +23,6 @@ def get_embed_model():
     print("Model loaded successfully")
     return embed_model
 
-
-# api_key = os.environ.get("GROQ_API_KEY")
-# api_key="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"
 def get_groq_llm():
     # load_dotenv()  
     # api_key=os.getenv("GROQ_API_KEY")
@@ -100,10 +97,6 @@ def init_settings():
     Settings.chunk_overlap = 64
     Settings.context_window =  3900
     Settings.embed_model= membed_model
-    # print("before embed me!!")
-    # print(membed_model.__class__, getattr(membed_model, 'model_name', None))
-    # print(mllm.__class__, getattr(mllm, 'model_name', None))
-    # print("after embed me!!")
     Settings.num_output = 256
     
 
