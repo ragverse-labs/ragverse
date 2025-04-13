@@ -7,7 +7,6 @@ from emails.template import JinjaTemplate
 
 from app.core.config import settings
 from app.schemas import EmailContent, EmailValidation
-# from app.utilities.smtp import send_smtp_email
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -23,13 +22,13 @@ def send_welcome_email(receiver_email, subject, body):
     """
 
     # SMTP server details
-    smtp_server = "smtp-relay.brevo.com"
+    smtp_server = settings.SMTP_HOST
     port = 587
-    login = "7a8154001@smtp-brevo.com"  # Your Brevo SMTP login
-    password = "FHwxSTb7rYXvj4IB"  # Your Brevo SMTP password
+    login = settings.SMTP_USER 
+    password = settings.SMTP_PASSWORD  
 
     # Email details
-    sender_email = "admin@ourvedas.in"  # Must match your validated sender in Brevo
+    sender_email = "admin@domain.in"  # Must match your validated sender in Brevo
 
     # Create the email headers and body
     message = MIMEMultipart()
@@ -64,8 +63,8 @@ def send_email(
     environment: Dict[str, Any] = {},
 ) -> None:
     assert settings.EMAILS_ENABLED, "no provided configuration for email variables"
-    sender_name="Our Vedas"
-    sender_email="admin@ourvedas.in"
+    sender_name="Ragverse"
+    sender_email="admin@domain.in"
     message = emails.Message(
         subject=JinjaTemplate(subject_template),
         html=JinjaTemplate(html_template),
@@ -84,30 +83,13 @@ def send_email(
     # Add common template environment elements
     print("settings.SERVER_HOST")
     
-    environment["server_host"] = "https://frontend.docker.localhost/landing/index.html"
-    smtp_options["user"] = "7a8154001@smtp-brevo.com"
-    smtp_options["password"] = "FHwxSTb7rYXvj4IB"
     smtp_options["tls"] = True 
     smtp_options["ssl"] = False
-     # environment["server_host"] = settings.SERVER_HOST
-    # environment["server_name"] = settings.SERVER_NAME
-    environment["server_name"] = "hhttps://frontend.docker.localhost/landing/index.html"
+    environment["server_host"] = settings.SERVER_HOST
+    environment["server_name"] = settings.SERVER_NAME
     environment["server_bot"] = settings.SERVER_BOT
     print(environment)
     print(smtp_options)
-    # context = {
-    #     "name": "Milly"
-    # }
-    # Send the email
-    # send_welcome_email(
-    #     receiver_email=email_to,
-    #     subject="Welcome to Our Vedas....",
-    #     body="We welcome you to the world of conversations..."
-       
-    # )
-
-    # response = message.send(to=email_to, render=environment, smtp=smtp_options)
-    # logging.info(f"send email result: {response}")
     try:
         response = message.send(to=email_to, render=environment, smtp=smtp_options)
         logging.info(f"Email sent successfully: {response}")
@@ -204,7 +186,6 @@ def send_new_account_email(email_to: str, username: str, password: str) -> None:
     with open(Path(settings.EMAIL_TEMPLATES_DIR) / "new_account.html") as f:
         template_str = f.read()
     link = settings.SERVER_HOST
-    # link = "smtp-relay.brevo.com"
     send_email(
         email_to=email_to,
         subject_template=subject,

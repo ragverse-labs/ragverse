@@ -1,22 +1,17 @@
 import json
 import os
 from typing import AsyncGenerator, List
-# import httpx
 from pydantic import BaseModel, Field
 from fastapi.responses import PlainTextResponse, StreamingResponse
 from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 from llama_index.core.llms import ChatMessage, MessageRole
-# from app.engine.query_manager import QueryEngineManager
-# from app.engine.constants import CHROMA_STORAGE_DIR
 from app.engine.model_data import ModelData
 from app.core.config import settings
 from app.engine.query_engine_tool_loader import QueryEngineToolsLoader
-# from app.engine.prompt_manager import PromptManager
 # import boto3
 
 
 router = APIRouter()
-# manager = QueryEngineManager()
 manager = QueryEngineToolsLoader()
 model_data = ModelData()
 # translator = TextTranslator()

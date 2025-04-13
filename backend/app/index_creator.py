@@ -1,6 +1,5 @@
 import os
 import textwrap
-# from typing import List
 from llama_index.core import (
     SimpleDirectoryReader,
     VectorStoreIndex,
@@ -87,4 +86,3 @@ query_collection("research", "What are 2 key points in the text? name the book a
 query_collection("united_nations", "What are 2 key points in the text? name the book also")
 query_collection("rbi_documents", "What are 2 key points in the text? name the book also")
 
-# delete_collection("bhagvad_gita")

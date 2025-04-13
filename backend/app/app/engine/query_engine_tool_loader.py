@@ -16,9 +16,6 @@ class QueryEngineToolsLoader:
         configuration.init_settings() 
         self.token = settings.MILVUS_TOKEN
         self.url = settings.MILVUS_URL
-        # self.redis_chat_url = 
-        self.index_loaded = False
-        # self.query_indexes = {}
         self.query_indexes: Dict[str, VectorStoreIndex] = {}
         self.load_indices()
         self.prompt_manager = PromptManager()
@@ -53,9 +50,6 @@ class QueryEngineToolsLoader:
                         uri=self.url,  dim=768, collection_name=collection_name)
                     
                     book_index = VectorStoreIndex.from_vector_store(vector_store=m_vector_store)
-                    
-                    # print(book_index.)
-                    # print("2# " )
                     self.health_check(book_index.as_query_engine())
                     self.query_indexes[collection_name] = book_index
                 
@@ -87,27 +81,22 @@ class QueryEngineToolsLoader:
             
             if reset_chat:
                 chat_memory.reset()
-            print("2-" + book_name)
             index = self.query_indexes[book_name]
             
             print(index)
-            print("3-" + book_name)
             prmpt = self.prompt_manager.get_system_prompt(prompt_type=book_name)
-            print(prmpt)
             chat_engine = index.as_chat_engine(chat_mode="context", streaming=True, 
                                                             memory=chat_memory,  
                                                             similarity_top_k=1,
                                                             context_prompt=prmpt,
                                                             verbose=True)
-            print("ok....")
             print(chat_engine.chat("explain about the topic in discussion"))
-            print("chat_history")
             print(chat_memory.chat_store_key)
 
         except Exception as e:
             # change the default
             index  =  self.query_indexes["research"]
-            chat_engine = index.as_chat_engine(chat_mode="condense_plus_context", streaming=True, 
+            chat_engine = index.as_chat_engine(chat_mode="context", streaming=True, 
                                                             context_prompt=self.prompt_manager.get_system_prompt(prompt_type=book_name),
                                                             verbose=False)
             # return chat_engine    

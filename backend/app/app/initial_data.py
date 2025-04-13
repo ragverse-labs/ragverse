@@ -11,7 +11,6 @@ from tenacity import after_log, before_log, retry, stop_after_attempt, wait_fixe
 from app.core.config import Settings
 from app.engine.model_data import ModelData
 
-# from app.core.config import Settings
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -32,16 +31,6 @@ async def populate_db() -> None:
 
     # Place any code after this line to add any db population steps
 
-# async def initialize() -> None:
-#     settings = Settings()
-#     await init_db(MongoDatabase())
-#     # Add other initialization tasks here
-
-# app = FastAPI()
-
-# @app.on_event("startup")
-# async def startup_event():
-#     await initialize()
 
 
 async def main() -> None:
