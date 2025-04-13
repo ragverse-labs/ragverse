@@ -10,13 +10,12 @@ import { User, UserRole } from '@/types/user';
 import { UserLlmUsage, NewUserLlmUsage, LlmPriceRate } from '@/types/llmUsage';
 import { OpenAIModelID } from '@/types/openai';
 
-import { Buffer } from 'buffer';
-import { readFile } from 'fs/promises';
+// import { Buffer } from 'buffer';
+// import { readFile } from 'fs/promises';
 import { TestPrompt } from '@/types/test-prompt';
 
 let _db: Db | null = null;
 export async function getDb(): Promise<Db> {
-  // console.log("i am signing side... ");
   if (!process.env.MONGODB_URI) {
     throw new Error('MONGODB_URI is not set');
   }

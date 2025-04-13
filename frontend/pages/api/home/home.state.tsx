@@ -50,7 +50,7 @@ export const initialState: Partial<HomeInitialState> = {
     defaultTemperature: 1.0,
     sourceLanguage:"eng_Latn",
     defaultLanguage:"eng_Latn",
-    defaultBook: "bhagavad-gita"
+    defaultBook: "research"
   },
   messageIsStreaming: false,
   modelError: null,

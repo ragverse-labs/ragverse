@@ -1,8 +1,6 @@
-# from pathlib import Path
 from llama_index.core.settings import Settings
 from llama_index.llms.ollama import Ollama
 from llama_index.llms.groq import Groq
-# import os
 from app.core.config import settings
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 def get_embed_model():
@@ -24,18 +22,9 @@ def get_embed_model():
     return embed_model
 
 def get_groq_llm():
-    # load_dotenv()  
-    # api_key=os.getenv("GROQ_API_KEY")
     model_name=settings.GROQ_MODEL_NAME
-    # model_name="llama-3.2-3b-preview"
-    # model_name = "mixtral-8x7b-32768"
     api_key=settings.GROQ_API_KEY
-    # print(f"model_name is of type: {model_name1}")
-    # print("the name is " + api_key)
-    # Use the retrieved API key and model name in the Groq LLM initialization
     llm = Groq(model=model_name, api_key=api_key, safe_prompt=True)
-
-    # llm = Groq(model="mixtral-8x7b-32768", api_key=api_key,  safe_prompt=True)
     return llm
 
 # def get_llama_cpp_llm():

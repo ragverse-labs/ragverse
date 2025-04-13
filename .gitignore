@@ -18,3 +18,4 @@ data-source/
 .env.prod
 indic-translator/
 docker-compose.yml
+READ-dont.md
