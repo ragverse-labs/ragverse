@@ -13,7 +13,6 @@ frontend_2/
 originals/
 data/
 models/
-data-source/
 .env
 .env.prod
 indic-translator/
