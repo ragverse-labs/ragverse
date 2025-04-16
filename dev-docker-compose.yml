@@ -194,8 +194,6 @@ services:
       # - traefik-public
       - default
 
-
-
   mongodb:
     image: mongo:5.0
     container_name: ragv_mongo
@@ -213,7 +211,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: yourmongouser       # Root username
       MONGO_INITDB_ROOT_PASSWORD: yourmongopassword    # Root password
-    MONGO_INITDB_DATABASE: ragverse
+      MONGO_INITDB_DATABASE: ragverse
     networks:
       - default
       # - traefik-public
