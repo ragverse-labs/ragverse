@@ -1,0 +1,26 @@
+site_name: Ragverse Docs
+repo_url: https://github.com/ragverse-labs/ragverse
+site_url: https://ragverse-labs.github.io/ragverse/
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Frontend: frontend.md
+  - Backend: backend.md
+  - Control Panel: control-panel.md
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.indexes
+    - search.highlight
+    - search.share
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+  - codehilite
+  - pymdownx.superfences
+  - pymdownx.tabbed
