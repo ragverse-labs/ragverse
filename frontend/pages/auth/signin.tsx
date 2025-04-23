@@ -1,6 +1,9 @@
 // "use client"
 
-
+// default function to fix compilation error.
+export default function do_something() {
+    return <div>hello</div>;
+  }
 // import { Suspense, useEffect, useState } from "react"
 // import {
 //   FieldErrors,
