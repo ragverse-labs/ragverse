@@ -1,0 +1,1 @@
+python scripts/generate_env.py --input schemas/env.json
