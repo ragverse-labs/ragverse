@@ -52,50 +52,108 @@ if (process.env.NEXTAUTH_ENABLED === 'true') {
 
 async function doSignIn(values: any): Promise<IUserProfile | null> {
   if (values.email) {
-    // console.log("i am signing... " + values.email);
     try {
       const userInfoDb = await getUserDb();
-
-      // Check if the user already exists in the database
       const existingUser = await userInfoDb.getUserByEmail(values.email);
       if (existingUser) {
-        const user = await apiAuth.authenticate(values.email, values.password);
-        if (user) {
-          // Optionally update existing user details if necessary
+        // console.log(values.password);
+        if (values.password) {
+          // Credentials login (email/password)
+          const user = await apiAuth.authenticate(values.email, values.password);
+          if (user) {
+            const updatedUser: IUserProfile = {
+              id: existingUser.id!,
+              email: existingUser.email,
+              password: false,
+              email_validated: false,
+              is_active: false,
+              is_superuser: false,
+              fullName: '',
+              totp: false
+            };
+            return updatedUser;
+          } else {
+            return null; // Invalid credentials
+          }
+        } else {
+          // Google login (no password)
           const updatedUser: IUserProfile = {
             id: existingUser.id!,
             email: existingUser.email,
             password: false,
-            email_validated: false,
-            is_active: false,
+            email_validated: true,  // Trust Google auth
+            is_active: true,
             is_superuser: false,
-            fullName: '',
+            fullName: existingUser.name || '',
             totp: false
           };
-
           return updatedUser;
         }
-
       } else {
-        // Create a new user profile if the user does not exist
-        const newAccessToken = values.accessToken; // Corrected "acceessToken" to "accessToken"
+        // Create new user profile if not exist
+        const newAccessToken = values.accessToken;
         const data: IUserProfileCreate = {
           email: values.email,
-          password: values.password || generateUUID(), // If password is not provided, generate a UUID
+          password: values.password || generateUUID(), // Generate random if no password
           fullName: values.fullName ? values.fullName : "",
         };
         return await apiAuth.createUserProfile(newAccessToken, data);
       }
     } catch (error) {
-      // Handle errors and log them for debugging
       console.error("Error during user sign-in or creation:", error);
       return null;
     }
   }
 
-  // If email is not provided, return null
   return null;
 }
+
+
+// async function doSignIn(values: any): Promise<IUserProfile | null> {
+//   if (values.email) {
+//     // console.log("i am signing... " + values.email);
+//     try {
+//       const userInfoDb = await getUserDb();
+//       // Check if the user already exists in the database
+//       const existingUser = await userInfoDb.getUserByEmail(values.email);
+//       if (existingUser) {
+//         const user = await apiAuth.authenticate(values.email, values.password);
+//         if (user) {
+//           // Optionally update existing user details if necessary
+//           const updatedUser: IUserProfile = {
+//             id: existingUser.id!,
+//             email: existingUser.email,
+//             password: false,
+//             email_validated: false,
+//             is_active: false,
+//             is_superuser: false,
+//             fullName: '',
+//             totp: false
+//           };
+
+//           return updatedUser;
+//         }
+
+//       } else {
+//         // Create a new user profile if the user does not exist
+//         const newAccessToken = values.accessToken; // Corrected "acceessToken" to "accessToken"
+//         const data: IUserProfileCreate = {
+//           email: values.email,
+//           password: values.password || generateUUID(), // If password is not provided, generate a UUID
+//           fullName: values.fullName ? values.fullName : "",
+//         };
+//         return await apiAuth.createUserProfile(newAccessToken, data);
+//       }
+//     } catch (error) {
+//       // Handle errors and log them for debugging
+//       console.error("Error during user sign-in or creation:", error);
+//       return null;
+//     }
+//   }
+
+//   // If email is not provided, return null
+//   return null;
+// }
 
   // async redirect({ url, baseUrl }) {
   //   // Always return to the base URL or a specific page after login
@@ -133,21 +191,38 @@ const callbacks: Partial<CallbacksOptions> = {
 
 
   async signIn({ user, account, profile, email, credentials }) {
-    // console.log("singing");
     console.log(credentials);
     console.log(account);
     console.log(profile);
-    // console.log(" signIn 3 ") ;
 
+    // let usr = await doSignIn({
+    //   email: user.email,
+    //   fullName: user.name || user.email!.substring(0, user.email!.indexOf('@'),
 
-    let usr = await doSignIn({
-      email: user.email,
-      fullName: user.name || user.email!.substring(0, user.email!.indexOf('@'),
+    //   ), password: credentials!.password,
+    //   accessToken: credentials!.csrfToken
+    // });
+    let usr;
 
-      ), password: credentials!.password,
-      accessToken: credentials!.csrfToken
-    });
+    if (credentials) {
+      // Credentials-based login (email/password)
+      usr = await doSignIn({
+        email: user.email,
+        fullName: user.email!.substring(0, user.email!.indexOf('@')),
+        password: credentials!.password,
+        accessToken: account!.access_token,
+      });
+    } else if (user) {
+      // Google-based login
+      usr = await doSignIn({
+        email: user.email,
+        fullName: user.name || user.email!.substring(0, user.email!.indexOf('@')),
+        // No password for Google login
+        accessToken: account!.access_token || '', // optional, or use id_token
+      });
+    }
 
+    
     // Handle the case where doSignIn returns null
     //  if (!usr) {
     //   console.error("Sign-in failed: User could not be signed in or created.");

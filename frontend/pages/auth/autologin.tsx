@@ -2,7 +2,6 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { signIn, signOut, useSession, getCsrfToken, getSession } from 'next-auth/react';
 import { InferGetServerSidePropsType } from 'next';
 import Brand from './brand';
-// import HomeQuestions from './home-questions'; // Ensure the correct import path
 import ForgotPassword from './forgotPassword';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -11,7 +10,10 @@ import Link from 'next/link';
 export default function SignIn({
   csrfToken,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession({
+    required: false,
+  });
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
@@ -94,24 +96,7 @@ export default function SignIn({
   };
 
   
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setError(''); // Clear any existing errors
-
-  //   const result = await signIn('credentials', {
-  //     redirect: true, // Prevent redirect
-  //     email,
-  //     password,
-  //     callbackUrl: '/', // You can specify where to redirect after success
-  //   });
-  //   if (result?.error) {
-  //     setError(result.error); // Display error message
-  //     alert(result.error);
-  //   } else if (result?.url) {
-  //     router.replace(result.url); // Redirect on successful sign-in
-  //   }
-  // };
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (Object.values(errors).some((error) => error)) {
@@ -152,7 +137,7 @@ export default function SignIn({
         <div className="w-full max-w-md mx-auto">
           <Link
             className="flex cursor-pointer flex-col items-center hover:opacity-50"
-            href="https://ourvedas.in/landing/index.html"
+            href="https://ancientexts.com/landing/index.html"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -273,7 +258,7 @@ export default function SignIn({
               </p>
             </form>
           )}
-          {/* {!isSignUp && !isForgotPassword && (
+          {!isSignUp && !isForgotPassword && (
             <div className="mt-6">
               <div className="flex justify-center items-center py-2">
                 <div className="border-t border-gray-300 flex-grow mr-3"></div>
@@ -281,13 +266,24 @@ export default function SignIn({
                 <div className="border-t border-gray-300 flex-grow ml-3"></div>
               </div>
               <button
+  onClick={handleGoogleSignIn}
+  className="w-full flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium bg-white text-gray-700 hover:bg-gray-50 mt-4"
+>
+  <img
+    src="https://developers.google.com/identity/images/g-logo.png"
+    alt="Google"
+    className="h-5 w-5"
+  />
+  Sign in with Google
+</button>
+              {/* <button
                 onClick={handleGoogleSignIn}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 mt-4"
+                className="w-full flex justify-center py-2 px-4 border border-red rounded-md shadow-sm text-sm font-medium  bg-white mt-4"
               >
                 Sign in with Google
-              </button>
+              </button> */}
             </div>
-          )} */}
+          )}
         </div>
       </div>
     </div>

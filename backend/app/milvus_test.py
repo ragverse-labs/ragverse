@@ -10,8 +10,8 @@ from app.engine import configuration
 
 SOURCE_DIR = "./app/data-source/"
 TOKEN = "40abf659fea7454be0a28c384c7e9b9eddb06ad6f9afcd18746c255fdf8fd56fde9616cae4b0be688a5b7416a84d75466d3fa805"
-URL = "http://localhost:19530"
-
+# URL = "http://localhost:19530"
+URL = "http://ragv_milvus-standalone:19530/"
 configuration.init_settings()
 print("init_settings created")
 
@@ -49,6 +49,7 @@ def create_index_for_all_folders():
             print(f"Failed to index {folder}: {e}")
 
 def query_collection(collection_name: str, question: str):
+    print(URL)
     vector_store = MilvusVectorStore(uri=URL, token=TOKEN, dim=768, collection_name=collection_name)
     index = VectorStoreIndex.from_vector_store(vector_store=vector_store)
     query_engine = index.as_query_engine()
@@ -81,6 +82,10 @@ def delete_collection(collection_name: str):
 # # # query_collection("united_nations", "what are 5 key areas of urgent action??")
 # # # delete_collection("medical_manuals")
 # create_milrun_index("medical_manuals")
+# delete_collection("medical_manuals")
+# delete_collection("research")
+# delete_collection("united_nations")
+# delete_collection("rbi_documents")
 query_collection("medical_manuals", "What are 2 key points in the text? Strictly rely provided information. Do not refer external sources")
 query_collection("research", "What are 2 key points in the text? name the book also")
 query_collection("united_nations", "What are 2 key points in the text? name the book also")

@@ -157,7 +157,8 @@ export const apiAuth = {
   },
   // ACCOUNT RECOVERY
   async recoverPassword(email: string): Promise<IMsg | IWebToken | null> {
-    const res = await fetch(`https://ourvedas.in/v1/login/recover/${email}`, {
+    let x = `${process.env.NEXTAUTH_URL}/login/recover/${email}`;
+    const res = await fetch(x, {
       method: "POST",
     });
     return (await jsonify(res)) as IMsg | IWebToken;
