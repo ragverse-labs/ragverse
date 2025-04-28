@@ -53,9 +53,6 @@ services:
       - /app/node_modules  # Prevent overriding the node_modules in the container
     ports:
       - "3000:3000"  # Expose frontend port to host
-    environment:
-      - OPENAI_API_HOST=http://backend:8000/v1
-      - NEXT_PUBLIC_API_URL=http://backend:8000/v1
     env_file:
       - ./frontend/.env.local
     command: ["npm", "run", "dev"]  # Override the CMD from the Dockerfile to run `npm run dev`
@@ -70,26 +67,6 @@ services:
     #   - "traefik.http.routers.frontend.tls.certresolver=le"
     #   - "traefik.http.routers.frontend.priority=1"  
     #   - "traefik.http.services.frontend.loadbalancer.server.port=3000"
-
-  control-panel:
-    image: "${DOCKER_IMAGE_CONTROLPANEL?Variable not set}:${TAG-latest}"
-    container_name: ragv_control_panel
-    build:
-      context: ./control-panel
-      dockerfile: Dockerfile
-    volumes:
-      - ./control-panel:/app
-      - /app/node_modules
-    ports:
-      - "5173:5173"  
-    environment:
-      - NEXT_PUBLIC_API_URL=http://backend:8000/v1
-    env_file:
-      - ./control-panel/.env.local
-    command: ["npm", "run", "dev"]
-
-    networks:
-      - default
 
   queue:
     image: rabbitmq:3
@@ -160,7 +137,7 @@ services:
     #   - ./backend/app:/app  # Mount the local backend directory
     volumes:
       - ./backend/app/app:/app/app
-      - ./data-source:/app/data-source
+
     ports:
       - "8000:8000"  # Expose backend port to host
     # environment:
@@ -214,8 +191,6 @@ services:
       # - traefik-public
       - default
 
-
-
   mongodb:
     image: mongo:5.0
     container_name: ragv_mongo
@@ -268,6 +243,25 @@ services:
     networks:
       # - traefik-public
       - default
+      
+  minio:
+    container_name: ragv_milvus-minio
+    image: minio/minio:RELEASE.2023-03-20T20-16-18Z
+    env_file:
+      - .env.milvus
+    ports:
+      - "9001:9001"
+      - "9000:9000"
+    volumes:
+      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/minio:/minio_data
+    command: minio server /minio_data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - default
 
   etcd:
     container_name: ragv_milvus-etcd
@@ -277,11 +271,8 @@ services:
       options:
         max-size: "2k"
         max-file: "3"
-    environment:
-      - ETCD_AUTO_COMPACTION_MODE=revision
-      - ETCD_AUTO_COMPACTION_RETENTION=1000
-      - ETCD_QUOTA_BACKEND_BYTES=4294967296
-      - ETCD_SNAPSHOT_COUNT=50000
+    env_file:
+      - .env.milvus
     volumes:
       - ./volumes/etcd:/etcd
     command: etcd -advertise-client-urls=http://127.0.0.1:2379 -listen-client-urls http://0.0.0.0:2379 --data-dir /etcd
@@ -293,23 +284,16 @@ services:
     networks:
     #  - traefik-public
      - default
-
   minio:
     container_name: ragv_milvus-minio
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "2k"
-        max-file: "3"
-    image: minio/minio:RELEASE.2022-10-24T18-35-07Z
-    environment:
-      MINIO_ACCESS_KEY: minioadminuser
-      MINIO_SECRET_KEY: minioadminkey
+    image: minio/minio:RELEASE.2023-03-20T20-16-18Z
+    env_file:
+      - .env.milvus
     ports:
       - "9001:9001"
       - "9000:9000"
     volumes:
-      - ./volumes/minio:/minio_data
+      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/minio:/minio_data
     command: minio server /minio_data --console-address ":9001"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
@@ -317,7 +301,6 @@ services:
       timeout: 20s
       retries: 3
     networks:
-      # - traefik-public
       - default
 
   standalone:
@@ -325,15 +308,14 @@ services:
     logging:
       driver: "json-file"
       options:
-        max-size: "2k"
+        max-size: "50m"
         max-file: "3"
     image: milvusdb/milvus:v2.3.20
     command: ["milvus", "run", "standalone"]
     security_opt:
       - seccomp:unconfined
-    environment:
-      ETCD_ENDPOINTS: etcd:2379
-      MINIO_ADDRESS: minio:9000
+    env_file:
+      - .env.milvus
     volumes:
       - ./volumes/milvus:/var/lib/milvus
     healthcheck:
@@ -352,14 +334,14 @@ services:
       # - traefik-public
       - default
 
-  # ollama:
-  #     image: ollama/ollama
-  #     container_name: ollama
-  #     ports:
-  #       - "11434:11434"  # Exposes Ollama's REST API
-  #     volumes:
-  #       - ollama-data:/root/.ollama  # Persistent model cache
-  #     restart: always
+  ollama:
+      image: ollama/ollama
+      container_name: ollama
+      ports:
+        - "11434:11434"  # Exposes Ollama's REST API
+      volumes:
+        - ollama-data:/root/.ollama  # Persistent model cache
+      restart: always
 
 volumes:
   mongodb-data:
