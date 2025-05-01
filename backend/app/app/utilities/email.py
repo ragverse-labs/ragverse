@@ -81,7 +81,7 @@ def send_email(
     if settings.SMTP_PASSWORD:
         smtp_options["password"] = settings.SMTP_PASSWORD
     # Add common template environment elements
-    print("settings.SERVER_HOST")
+    # print(settings.SERVER_HOST)
     
     smtp_options["tls"] = True 
     smtp_options["ssl"] = False
@@ -163,12 +163,13 @@ def send_reset_password_email(email_to: str, email: str, token: str) -> None:
         template_str = f.read()
     server_host = settings.SERVER_HOST
     link = f"{server_host}/reset-password?token={token}"
+    print(link)
     send_email(
         email_to=email_to,
         subject_template=subject,
         html_template=template_str,
         environment={
-            "project_name": settings.PROJECT_NAME,
+            "project_name": project_name,
             "username": email,
             "email": email_to,
             "valid_hours": int(settings.ACCESS_TOKEN_EXPIRE_SECONDS / 60),

@@ -4,15 +4,10 @@ import { OpenAIModel } from '@/types/openai';
 import {
   OPENAI_API_HOST,
   OPENAI_API_TYPE,
-  OPENAI_API_VERSION,
   OPENAI_ORGANIZATION,
 } from '../app/const';
 
-import {
-  ParsedEvent,
-  ReconnectInterval,
-  createParser,
-} from 'eventsource-parser';
+
 import { ApiError, ApiErrorBody, ErrorResponseCode } from '@/types/error';
 
 export class OpenAIError extends ApiError {
@@ -61,13 +56,7 @@ export const OpenAIStream = async (
   maxTokens: number,
 ) => {
   let url = `${OPENAI_API_HOST}/chat/chat`;
-  //  let url = `https://ourvedas.in/v1/chat/chat`
-  console.log("its chat... " + url);
 
-  //  v1/chat/completions;
-  // if (OPENAI_API_TYPE === 'azure') {
-  //   url = `${OPENAI_API_HOST}/openai/deployments/${model.azureDeploymentId}/chat/completions?api-version=${OPENAI_API_VERSION}`;
-  // }
   const res = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',

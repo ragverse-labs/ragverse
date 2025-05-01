@@ -7,7 +7,7 @@ import { getUserHashFromMail } from '@/utils/server/auth';
 
 import loggerFn from 'pino';
 import { IUserProfile, IUserProfileCreate } from '@/lib/interfaces';
-import { generateUUID } from '@/lib/utilities';
+import { generateUUID, tokenParser } from '@/lib/utilities';
 import { apiAuth } from '@/lib/api';
 
 
@@ -109,58 +109,6 @@ async function doSignIn(values: any): Promise<IUserProfile | null> {
 }
 
 
-// async function doSignIn(values: any): Promise<IUserProfile | null> {
-//   if (values.email) {
-//     // console.log("i am signing... " + values.email);
-//     try {
-//       const userInfoDb = await getUserDb();
-//       // Check if the user already exists in the database
-//       const existingUser = await userInfoDb.getUserByEmail(values.email);
-//       if (existingUser) {
-//         const user = await apiAuth.authenticate(values.email, values.password);
-//         if (user) {
-//           // Optionally update existing user details if necessary
-//           const updatedUser: IUserProfile = {
-//             id: existingUser.id!,
-//             email: existingUser.email,
-//             password: false,
-//             email_validated: false,
-//             is_active: false,
-//             is_superuser: false,
-//             fullName: '',
-//             totp: false
-//           };
-
-//           return updatedUser;
-//         }
-
-//       } else {
-//         // Create a new user profile if the user does not exist
-//         const newAccessToken = values.accessToken; // Corrected "acceessToken" to "accessToken"
-//         const data: IUserProfileCreate = {
-//           email: values.email,
-//           password: values.password || generateUUID(), // If password is not provided, generate a UUID
-//           fullName: values.fullName ? values.fullName : "",
-//         };
-//         return await apiAuth.createUserProfile(newAccessToken, data);
-//       }
-//     } catch (error) {
-//       // Handle errors and log them for debugging
-//       console.error("Error during user sign-in or creation:", error);
-//       return null;
-//     }
-//   }
-
-//   // If email is not provided, return null
-//   return null;
-// }
-
-  // async redirect({ url, baseUrl }) {
-  //   // Always return to the base URL or a specific page after login
-  //   console.log(baseUrl + " redirect 2 ") ;
-  //     return baseUrl;
-  //   // return "/";
-  // },
 
 
 const callbacks: Partial<CallbacksOptions> = {
@@ -195,14 +143,10 @@ const callbacks: Partial<CallbacksOptions> = {
     console.log(account);
     console.log(profile);
 
-    // let usr = await doSignIn({
-    //   email: user.email,
-    //   fullName: user.name || user.email!.substring(0, user.email!.indexOf('@'),
 
-    //   ), password: credentials!.password,
-    //   accessToken: credentials!.csrfToken
-    // });
     let usr;
+
+
 
     if (credentials) {
       // Credentials-based login (email/password)
@@ -210,7 +154,7 @@ const callbacks: Partial<CallbacksOptions> = {
         email: user.email,
         fullName: user.email!.substring(0, user.email!.indexOf('@')),
         password: credentials!.password,
-        accessToken: account!.access_token,
+        accessToken: credentials!.csrfToken,
       });
     } else if (user) {
       // Google-based login

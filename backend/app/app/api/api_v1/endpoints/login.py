@@ -3,7 +3,8 @@ from typing import Any, Union
 from fastapi import APIRouter, Body, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from motor.core import AgnosticDatabase
-
+from odmantic import ObjectId
+from app.schemas.user import UserUpdate
 from app import crud, models, schemas
 from app.api import deps
 from app.core import security
@@ -266,18 +267,16 @@ async def reset_password(
     Reset password
     """
     claim_in = deps.get_magic_token(token=claim)
-    # Get the user
-    user = await crud.user.get(db, id=magic_in.sub)
+    user = await crud.user.get(db, id=ObjectId(magic_in.sub))
     # Test the claims
     if (
-        (claim_in.sub == magic_in.sub)
+        (claim_in.sub != magic_in.sub)
         or (claim_in.fingerprint != magic_in.fingerprint)
         or not user
-        or not crud.user.is_active(user)
     ):
         raise HTTPException(status_code=400, detail="Password update failed; invalid claim.")
     # Update the password
-    hashed_password = security.get_password_hash(new_password)
-    user.hashed_password = hashed_password
-    await user.save()
+    user_in_update = UserUpdate(password=new_password)
+    await crud.user.update(db, db_obj=user, obj_in=user_in_update)
+
     return {"msg": "Password updated successfully."}

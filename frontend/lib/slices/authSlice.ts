@@ -16,6 +16,7 @@ import { RootState } from "../store";
 import { tokenIsTOTP, tokenParser } from "../utilities";
 import { addNotice, deleteNotices } from "./toastsSlice";
 import { apiAuth } from "../api";
+import { getCsrfToken, getSession } from 'next-auth/react';
 import {
   setMagicToken,
   deleteTokens,
@@ -384,30 +385,26 @@ export const recoverPassword =
     }
   };
 
+
+
 export const resetPassword =
   (password: string, token: string) =>
   async (dispatch: Dispatch, getState: () => RootState) => {
-    const currentState = getState();
-    if (!loggedIn(currentState)) {
+    const state = getState();
+
+    if (!loggedIn(state)) {
       try {
-        const claim: string = currentState.tokens.access_token;
-        // Check the two magic tokens meet basic criteria
-        const localClaim = tokenParser(claim);
-        const magicClaim = tokenParser(token);
-        if (
-          localClaim.hasOwnProperty("fingerprint") &&
-          magicClaim.hasOwnProperty("fingerprint") &&
-          localClaim["fingerprint"] === magicClaim["fingerprint"]
-        ) {
-          const res = await apiAuth.resetPassword(password, claim, token);
-          if (res.msg) {
-            dispatch(
-              addNotice({
-                title: "Success",
-                content: res.msg,
-              }),
-            );
-          } else throw "Error";
+        const res = await apiAuth.resetPassword(password, token, token);
+
+        if (res?.msg) {
+          dispatch(
+            addNotice({
+              title: "Success",
+              content: res.msg,
+            })
+          );
+        } else {
+          throw new Error("Unexpected response");
         }
       } catch (error) {
         dispatch(
@@ -416,11 +413,10 @@ export const resetPassword =
             content:
               "Ensure you're using the same browser and that the token hasn't expired.",
             icon: "error",
-          }),
+          })
         );
         dispatch(deleteTokens());
       }
     }
   };
-
 export default authSlice.reducer;

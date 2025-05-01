@@ -1,3 +1,4 @@
+import { DOMAIN_URL } from "@/utils/app/const";
 import {
   IUserProfile,
   IUserProfileUpdate,
@@ -157,8 +158,9 @@ export const apiAuth = {
   },
   // ACCOUNT RECOVERY
   async recoverPassword(email: string): Promise<IMsg | IWebToken | null> {
-    let x = `${process.env.NEXTAUTH_URL}/login/recover/${email}`;
-    const res = await fetch(x, {
+    let url = `http://localhost:8000/v1/login/recover/${email}`;
+    // let url = `${DOMAIN_URL}/v1/login/recover/${email}`;
+    const res = await fetch(url, {
       method: "POST",
     });
     return (await jsonify(res)) as IMsg | IWebToken;
@@ -168,7 +170,10 @@ export const apiAuth = {
     claim: string,
     token: string,
   ): Promise<IMsg> {
-    const res = await fetch(`${apiCore.url}/login/reset`, {
+
+    let url = `http://localhost:8000/v1/login/reset`;
+    // let url = `${DOMAIN_URL}/v1/login/reset`;
+    const res = await fetch(url, {
       method: "POST",
       body: JSON.stringify({
         new_password: password,
@@ -240,20 +245,5 @@ export const apiAuth = {
   
     return (await res.json()) as IUserProfile;
   },  
-  // async authenticate(
-  //   username: string,
-  //   password: string,
-  // ): Promise<IUserProfile> {
-  //   const params = new URLSearchParams();
-  //   params.append("username", username);
-  //   params.append("password", password);
-  //   const res = await fetch(`${apiCore.url}/login/authenticate`, {
-  //     method: "POST",
-  //     body: params,
-  //     // @ts-ignore
-  //     headers: { "Content-Disposition": params },
-  //   });
-   
-  //   return (await jsonify(res)) as IUserProfile;
-  // },
+ 
 };
