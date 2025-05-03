@@ -7,8 +7,10 @@ from app.api.api_v1.endpoints import (
     chat,
     books,
     languages,
-    prompts
+    prompts,
+    testPrompts
 )
+
 
 
 api_router = APIRouter()
@@ -19,3 +21,4 @@ api_router.include_router(chat.router, prefix="/chat", tags=["chat"])
 api_router.include_router(books.router, prefix="/books", tags=["books"])
 api_router.include_router(prompts.router, prefix="/prompts", tags=["prompts"])
 api_router.include_router(languages.router, prefix="/languages", tags=["languages"])
+api_router.include_router(testPrompts.router, prefix="/testPrompts", tags=["testPrompts"])

@@ -22,7 +22,8 @@ class PromptBase(BaseModel):
 
     # Properties to receive via API on creation
 class PromptCreate(PromptBase):
-    id: str = Field(...)
+    pass
+    # id: str = Field(...)
 
 
 # Properties to receive via API on update

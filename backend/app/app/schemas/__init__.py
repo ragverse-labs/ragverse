@@ -16,3 +16,4 @@ from .language import Language, LanguageCreate, LanguageInDB, LanguageUpdate
 from .emails import EmailContent, EmailValidation
 from .totp import NewTOTP, EnableTOTP
 from .prompt import Prompt, PromptCreate, PromptInDB, PromptUpdate
+from .testPrompts import TestPrompts, TestPromptCreate, TestPromptInDB, TestPromptUpdate

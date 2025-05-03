@@ -15,7 +15,8 @@ class LanguageBase(BaseModel):
 
 # Properties to receive via API on creation
 class LanguageCreate(LanguageBase):
-    id: str = Field()
+    pass
+    # id: str = Field()
 
 
 # Properties to receive via API on update

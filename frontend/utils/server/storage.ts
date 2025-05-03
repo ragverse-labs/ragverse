@@ -278,7 +278,7 @@ export class PublicPromptsDb {
   private _testPrompts: Collection<TestPromptCollectionItem>;
 
   constructor(_db: Db) {
-    this._testPrompts = _db.collection<TestPromptCollectionItem>('testPrompts');
+    this._testPrompts = _db.collection<TestPromptCollectionItem>('test_prompts');
     this._publicPrompts = _db.collection<PromptsCollectionItem>('publicPrompts');
     this._publicFolders = _db.collection<PublicFoldersCollectionItem>('publicFolders');
     

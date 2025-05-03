@@ -1,9 +1,7 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING
 from datetime import datetime
-from pydantic import EmailStr
 from odmantic import ObjectId, Field
-
 from app.db.base_class import Base
 
 if TYPE_CHECKING:

@@ -1,7 +1,15 @@
 
-# 👋 Welcome to **Ragverse**
+# 👋 Ready to Build Your Own Knowledge Bank?
 
-Work In Progress.
+Curious about harnessing the power of Retrieval-Augmented Generation (RAG) for your data? Wish setting it up was as simple as plug-and-play? With RAGVerse, it is. We offer a complete, integrated RAG pipeline to transform your datasets into a production-ready, intelligent retrieval system — in just a few easy steps.
+
+We’re already powering ancientexts.com — a live, conversational interface to explore the wisdom of Ancient Hindu Scriptures at your fingertips.
+
+🌐 Live Demo
+
+[Demo] https://github.com/ragverse-labs/ragverse/blob/main/docs/ancientexts-demo.gif
+
+Explore a real-world implementation of RAGVerse in action at ancientexts.com — combining seamless knowledge retrieval with natural language conversation.
 
 **Ragverse** is a modular, open-source framework for building and managing end-to-end **Retrieval-Augmented Generation (RAG)** systems.
 
@@ -20,12 +28,6 @@ Whether you're experimenting with LLMs or building production-grade RAG applicat
 - 💻 [Frontend Guide](https://github.com/ragverse-labs/ragverse/blob/main/docs/frontend.md)  
 - 🔧 [Backend Guide](https://github.com/ragverse-labs/ragverse/blob/main/docs/backend.md)  
 - 📊 [Control Panel Guide](https://github.com/ragverse-labs/ragverse/blob/main/docs/control-panel.md)
-
----
-
-## 🌐 Live Example
-
-Check out a live implementation of Ragverse powering https://ancientexts.com — a real-world use case combining knowledge retrieval with conversational AI.
 
 ---
 

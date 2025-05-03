@@ -1,6 +1,8 @@
 ```bash
-cd frontend
-npm install
-npm run dev
+cd ragverse
 
+docker-compose -f dev-docker-compose.yml build --no-cache frontend
 
+###Development Environment
+
+Work in progress

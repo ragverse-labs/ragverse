@@ -148,6 +148,15 @@ async def get_all_prompts(
         raise HTTPException(status_code=404, detail="Prompt not found")
     return prompts
 
+async def get_all_test_prompts(
+    db: AgnosticDatabase = Depends(get_db)
+) -> List[schemas.TestPrompts]:
+    prompts = await crud.testPrompts.get_multi(db)
+    print(prompts)
+    if not prompts:
+        raise HTTPException(status_code=404, detail="Prompt not found")
+    return prompts
+
 async def get_all_languages(
     db: AgnosticDatabase = Depends(get_db)
 ) -> List[schemas.Language]:

@@ -17,11 +17,11 @@ const endpoints: Record<
     delete: (id) => `v1/books/${id}`,
   },
   user: {
-    list: "v1/users",
-    create: "v1/users",
-    getOne: (id) => `v1/users/${id}`,
-    update: (id) => `v1/users/${id}`,
-    delete: (id) => `v1/users/${id}`,
+    list: "v1/user",
+    create: "v1/user",
+    getOne: (id) => `v1/user/${id}`,
+    update: (id) => `v1/user/${id}`,
+    delete: (id) => `v1/user/${id}`,
   },
   testPrompts: {
     list: "v1/testPrompts/all",
@@ -36,6 +36,13 @@ const endpoints: Record<
     getOne: (id) => `v1/prompts/${id}`,
     update: (id) => `v1/prompts/${id}`,
     delete: (id) => `v1/prompts/${id}`,
+  },
+  languages: {
+    list: "v1/languages/all",
+    create: "v1/languages",
+    getOne: (id) => `v1/languages/${id}`,
+    update: (id) => `v1/languages/${id}`,
+    delete: (id) => `v1/languages/${id}`,
   },
 };
 

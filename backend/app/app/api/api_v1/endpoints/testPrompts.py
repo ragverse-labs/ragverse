@@ -4,13 +4,12 @@ from fastapi import APIRouter,  Depends, HTTPException, Query
 from fastapi.responses import JSONResponse
 from motor.core import AgnosticDatabase
 from odmantic import ObjectId
-import redis
 from app import crud, db, models, schemas
 from app.api import deps
-from app.models.prompt import Prompt
+from app.models.testPrompts import TestPrompts
     
 router = APIRouter()
-redis_client = redis.Redis(host="ragv_redis-1", port=6379, decode_responses=True)
+
 
 def parse_json_string(json_string: str):
     try:
@@ -18,30 +17,25 @@ def parse_json_string(json_string: str):
     except json.JSONDecodeError:
         raise HTTPException(status_code=400, detail="Invalid JSON format")
 
-@router.post("/add", response_model=schemas.Prompt)
-async def add_prompt(
+
+@router.post("/add", response_model=schemas.TestPrompts)
+async def add_test_prompt(
     *,
     db: AgnosticDatabase = Depends(deps.get_db),
-    prompt_in: schemas.PromptCreate 
+    prompt_in: schemas.TestPromptCreate 
 ) -> Any:
     """
     Create new book without the need to be logged in.
     """
-    prompt = await crud.prompt.create(db, obj_in=prompt_in)
-
-    all_prompts = await crud.prompt.get_multi(db)
-    redis_client.set(
-        "ragv_prompts",
-        json.dumps([b.model_dump(mode="json") for b in all_prompts])
-    )
+    prompt = await crud.testPrompts.create(db, obj_in=prompt_in)
     return prompt
 
-@router.put("/{id}", response_model=schemas.Prompt)
+@router.put("/{id}", response_model=schemas.TestPrompts)
 async def update_prompt(
     *,
     db: AgnosticDatabase = Depends(deps.get_db),
     id: str,
-    prompt_in: schemas.PromptUpdate
+    prompt_in: schemas.TestPromptUpdate
 ) -> Any:
     """
     Update an existing book without requiring login.
@@ -49,22 +43,17 @@ async def update_prompt(
     if not ObjectId.is_valid(id):
         raise HTTPException(status_code=400, detail="Invalid ObjectId")
 
-    existing = await crud.prompt.get(db=db, id=ObjectId(id))
+    existing = await crud.testPrompts.get(db=db, id=ObjectId(id))
     if not existing:
-        raise HTTPException(status_code=404, detail="Book not found")
+        raise HTTPException(status_code=404, detail="Test Prompt not found")
 
-    updated = await crud.prompt.update(db=db, db_obj=existing, obj_in=prompt_in)
-
-    all_prompts = await crud.prompt.get_multi(db)
-    redis_client.set(
-        "ragv_prompts",
-        json.dumps([b.model_dump(mode="json") for b in all_prompts])
-    )
-
+    updated = await crud.testPrompts.update(db=db, db_obj=existing, obj_in=prompt_in)
     return updated
 
-@router.get("/all", response_model=List[schemas.Prompt])
-async def read_all_prompts(
+
+
+@router.get("/all", response_model=List[schemas.TestPrompts])
+async def read_test_prompts(
     *,
     db: AgnosticDatabase = Depends(deps.get_db),
     page: int = 0,
@@ -74,17 +63,20 @@ async def read_all_prompts(
     Retrieve all Prompts.
     """
     try:
-        results = await crud.prompt.get_multi(db=db, page=page)
+        print("before....")
+        results = await deps.get_all_test_prompts()
+        print(results)
+        # crud.testPrompts.get_multi(db=db)
         total = 10
         return results
     
     except Exception as error:
         print(error)
-        raise HTTPException(status_code=404, detail="Books not found")
+        raise HTTPException(status_code=404, detail="Test Prompt not found")
     
 
-@router.get("/{id}", response_model=schemas.Prompt)
-async def get_prompt(
+@router.get("/{id}", response_model=schemas.TestPrompts)
+async def get_test_prompt(
     id: str,
     db: AgnosticDatabase = Depends(deps.get_db)
 ) -> Any:
@@ -95,10 +87,10 @@ async def get_prompt(
         if not ObjectId.is_valid(id):
             raise HTTPException(status_code=400, detail="Invalid ObjectId format")
 
-        result = await crud.prompt.get(db=db, id=ObjectId(id))
+        result = await crud.testPrompts.get(db=db, id=ObjectId(id))
 
         if result is None:
-            raise HTTPException(status_code=404, detail="Prompt not found")
+            raise HTTPException(status_code=404, detail="Test Prompt not found")
 
         return result
 
