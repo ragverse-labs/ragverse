@@ -1,7 +1,7 @@
 import React, { DetailedHTMLProps, useCallback, useState } from 'react';
 
 interface Props {
-  textareaRef?: React.RefObject<HTMLTextAreaElement>;
+  textareaRef?: React.RefObject<HTMLTextAreaElement | null>;
   rows?: number;
   isEditable?: boolean;
 }

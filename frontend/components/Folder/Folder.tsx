@@ -25,7 +25,7 @@ interface Props {
   currentFolder: FolderInterface;
   searchTerm: string;
   handleDrop?: ((e: any, folder: FolderInterface) => void);
-  folderComponent: (ReactElement | undefined)[];
+  folderComponent: (ReactElement<any> | undefined)[];
   handleAddItem?: () => void;
   handleEditFolder?: (folder: FolderInterface) => void;
   handleDeleteFolder?: (folder: FolderInterface) => void;
