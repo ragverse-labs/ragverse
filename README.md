@@ -7,7 +7,7 @@ We’re already powering ancientexts.com — a live, conversational interface to
 
 🌐 Live Demo
 
-[Demo] https://github.com/ragverse-labs/ragverse/blob/main/docs/ancientexts-demo.gif
+[Demo](https://github.com/ragverse-labs/ragverse/blob/main/docs/ancientexts-demo.gif)
 
 Explore a real-world implementation of RAGVerse in action at ancientexts.com — combining seamless knowledge retrieval with natural language conversation.
 
@@ -62,6 +62,3 @@ Please refer to our [contribution guidelines](https://github.com/ragverse-labs/r
 
 If you find this project useful, consider giving it a star ⭐️ and sharing it with others who might benefit!
 
----
-
-Would you like a `CONTRIBUTING.md`, license, or GitHub Actions workflow template as well?
