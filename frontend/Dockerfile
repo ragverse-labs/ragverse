@@ -9,7 +9,7 @@
     COPY package*.json ./
     
     # Install dependencies
-    RUN npm ci
+    RUN npm install
     
     # Remove any stale `.next` folder
     RUN rm -rf .next

@@ -46,16 +46,28 @@ Copy and rename the sample `.env` files:
 
 ```bash
 cp .env.sample .env
-cp .env.local.sample .env.local
+cp frontend/.env.local.sample frontend/.env.local
+cp control-panel/.env.local.sample control-panel/.env.local
 ```
 
 Edit these files and add your required configuration (e.g., database credentials, paths).
 
 ---
 
+## Setup Ollamma
+
+Download and install Ollama from <https://ollama.com/download> and instal llama3.2 model:
+
+```bash
+ollama run llama3.2:latest
+```
+
 ## 🐋 Build Services (Docker)
 
 > **Note:** Make sure you’ve downloaded the required embedding model from Hugging Face before continuing.
+> Example:
+> ``` git clone https://huggingface.co/intfloat/e5-base-v2 && ```
+> ``` mv e5-base-v2/ ragverse/backend/app/models/ ```
 
 ### Build All Services (First Time)
 
