@@ -9,7 +9,7 @@ mongo_db=$(grep MONGODB_DB ../frontend/.env.local | cut -d '=' -f 2)
 container_name="ragv_mongo"
 
 # Loop through each subfolder in data-source
-for folder in ./data-source/*/; do
+for folder in ./app/data-source/*/; do
   # Remove trailing slash and get folder name
   folder_name=$(basename "$folder")
 
@@ -47,6 +47,16 @@ for folder in ./data-source/*/; do
 
   
 done
+
+docker exec "$container_name" mongosh --username "$mongo_user" --password "$mongo_pass" --authenticationDatabase admin "$mongo_db" --eval '
+  db.language.insertOne({
+    identifier: "eng_Latn",
+    name: "English",
+    status: "E",
+    created: '$(date +%s)',
+    owned_by: "ragverse"
+  });
+'
 
 # Prompt for sample question
   read -rp "Enter a sample question #1 " user_question

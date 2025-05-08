@@ -160,7 +160,7 @@ services:
     #   - ./backend/app:/app  # Mount the local backend directory
     volumes:
       - ./backend/app/app:/app/app
-      - ./data-source:/app/data-source
+      - ./backend/app/data-source:/app/data-source
     ports:
       - "8000:8000"  # Expose backend port to host
     # environment:
@@ -303,8 +303,8 @@ services:
         max-file: "3"
     image: minio/minio:RELEASE.2022-10-24T18-35-07Z
     environment:
-      MINIO_ACCESS_KEY: minioadminuser
-      MINIO_SECRET_KEY: minioadminkey
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
     ports:
       - "9001:9001"
       - "9000:9000"
