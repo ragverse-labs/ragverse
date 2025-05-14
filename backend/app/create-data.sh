@@ -93,6 +93,7 @@ docker exec "$container_name" mongosh --username "$mongo_user" --password "$mong
   "
 
   # Run generate.py in backend container
+docker restart ragv_backend &&
 echo "Running ./app/generate.py inside ragv_backend..."
 docker exec ragv_backend python ./app/engine/generate.py
 
