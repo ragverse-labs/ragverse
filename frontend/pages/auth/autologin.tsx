@@ -141,12 +141,6 @@ export default function SignIn({
             target="_blank"
             rel="noopener noreferrer"
           >
-            {/* <img
-              src="/images/our-vedas-logo.png"
-              width="100"
-              height="125"
-              className="w-48 h-auto md:w-56"
-            /> */}
           </Link>
           {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
           {isForgotPassword ? (
