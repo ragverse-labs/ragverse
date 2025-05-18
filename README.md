@@ -15,7 +15,7 @@ Explore a real-world implementation of RAGVerse in action at ancientexts.com —
 
 It includes:
 - A modern **chat frontend**
-- Robust **backend APIs**
+- Robust **fully integrated backends**
 - An intuitive **control panel** for orchestration and observability
 
 Whether you're experimenting with LLMs or building production-grade RAG applications, Ragverse offers a complete ecosystem to help you go from zero to production.
