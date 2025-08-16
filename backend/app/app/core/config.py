@@ -84,7 +84,8 @@ class Settings(BaseSettings):
     AWS_ACCESS_KEY: str = ""
     AWS_SECRET_ACCESS_KEY: str = ""
     REDIS_CHAT_STORE_URL: str = ""
-    
+    RAG_TYPE: str = ""
+    CODEBASE_PATH: str = ""
 settings = Settings()
 
 

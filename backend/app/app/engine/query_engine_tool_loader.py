@@ -10,6 +10,7 @@ from llama_index.storage.chat_store.redis import RedisChatStore
 from app.core.config import settings
 from app.engine.model_data import ModelData
 from llama_index.core.chat_engine.types import BaseChatEngine
+from backend.app.app.engine.code_index import CodeIndex
 
 class QueryEngineToolsLoader:
     def __init__(self):
@@ -18,6 +19,7 @@ class QueryEngineToolsLoader:
         self.url = settings.MILVUS_URL
         self.query_indexes: Dict[str, VectorStoreIndex] = {}
         self.load_indices()
+        self.code_index = CodeIndex()
         self.prompt_manager = PromptManager()
         self.chat_store  = RedisChatStore(redis_url=settings.REDIS_CHAT_STORE_URL, ttl=300)
        
@@ -73,7 +75,11 @@ class QueryEngineToolsLoader:
             
             if reset_chat:
                 chat_memory.reset()
-            index = self.query_indexes[book_name]
+            if book_name == settings.RAG_TYPE: 
+               
+                index = self.code_index.load_existing_index()
+            else:
+                index = self.query_indexes[book_name]
 
             prmpt = self.prompt_manager.get_system_prompt(prompt_type=book_name)
             chat_engine = index.as_chat_engine(chat_mode="context", streaming=True, 

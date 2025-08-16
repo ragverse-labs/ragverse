@@ -1,16 +1,6 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
-// const jsonToMarkdown = (data: any): string => {
-//     let jsonV = JSON.parse(data.inputText);
-//     let bname = toTitleCase(jsonV.book_name);
-//     // return `${jsonV.content} `;
-//     return `${jsonV.content} \n ${bname}`;
-//     // return `${jsonV.content} \n *${bname} \t\t\t\t\t\t\t\t\t\t\t Language: (${jsonV.to_language})*`;
-//     // return `Your Question: ${jsonV.content} ___ **Book Name:** ${jsonV.book_name} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Language:** (${jsonV.to_language})`;
-
-// };
-
 const jsonToMarkdown = (data: any): string => {
     try {
       const jsonData = JSON.parse(data.inputText);

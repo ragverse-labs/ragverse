@@ -3,7 +3,9 @@ from app.engine.index_creator import (
     create_index_for_data_source,
 
 )
+from backend.app.app.engine.code_index import CodeIndex
 from app.engine import configuration
+from app.core.config import settings
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -14,7 +16,13 @@ def generate_datasource():
     configuration.init_settings()
 
     logger.info("Creating index for all folders...")
-    create_index_for_data_source(SOURCE_DIR)
+
+    if settings.RAG_TYPE == "coding":
+        rag = CodeIndex()
+        documents = rag.load_code_files(SOURCE_DIR)
+        rag.create_coding_index(documents)
+    else: 
+        create_index_for_data_source(SOURCE_DIR)
 
     logger.info("Datasource generation and querying completed.")
 

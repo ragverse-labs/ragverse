@@ -16,6 +16,7 @@ def create_milrun_index(name: str, source_dir: str):
         token=settings.MILVUS_TOKEN,
         dim=768,
         overwrite=True,
+        similarity_metric="COSINE",
         collection_name=name
     )
 
