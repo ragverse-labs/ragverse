@@ -13,8 +13,6 @@ frontend_2/
 originals/
 data/
 models/
-.env
 .env.prod
 indic-translator/
-docker-compose.yml
 READ-dont.md
