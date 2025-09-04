@@ -10,7 +10,7 @@ from llama_index.storage.chat_store.redis import RedisChatStore
 from app.core.config import settings
 from app.engine.model_data import ModelData
 from llama_index.core.chat_engine.types import BaseChatEngine
-from backend.app.app.engine.code_index import CodeIndex
+from app.engine.code_index import CodeIndex
 
 class QueryEngineToolsLoader:
     def __init__(self):
@@ -36,19 +36,22 @@ class QueryEngineToolsLoader:
     def load_indices(self):
         # if self.index_loaded == False:
             try:
-                model_data = ModelData()
+                # model_data = ModelData()
                 # collections = ["research", "united_nations", "medical_manuals", "rbi_documents"]
-                collections = model_data.get_books()
+                # collections = model_data.get_books()
                 print("for loading indices")
                 # print(collections)
-                for collection in collections:
-                    collection_name=collection["identifier"]
-                    m_vector_store = MilvusVectorStore(
-                        uri=self.url,  dim=768, collection_name=collection_name)
+                # for collection in collections:
+                    # collection_name=collection["identifier"]
+                collection_name="cpp_csharp_codebase"
+                m_vector_store = MilvusVectorStore(
+                        uri="/tmp/milvus_llamaindex.db",
+                        # uri="/app/app/milvus_llamaindex.db", 
+                        dim=1024, collection_name=collection_name)
                     
-                    book_index = VectorStoreIndex.from_vector_store(vector_store=m_vector_store)
-                    self.health_check(book_index.as_query_engine())
-                    self.query_indexes[collection_name] = book_index
+                book_index = VectorStoreIndex.from_vector_store(vector_store=m_vector_store)
+                self.health_check(book_index.as_query_engine())
+                self.query_indexes[collection_name] = book_index
             except Exception as e:
                 self.index_loaded = False
                 print(f"Failed to load indices: {e}")
@@ -90,7 +93,7 @@ class QueryEngineToolsLoader:
 
         except Exception as e:
             # change the default
-            index  =  self.query_indexes["research"]
+            index  =  self.query_indexes["codebase_collection"]
             chat_engine = index.as_chat_engine(chat_mode="context", streaming=True, 
                                                             context_prompt=self.prompt_manager.get_system_prompt(prompt_type=book_name),
                                                             verbose=True)

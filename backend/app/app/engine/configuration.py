@@ -16,7 +16,8 @@ def get_embed_model():
     local_model_path=hf_home
     embed_model = HuggingFaceEmbedding(
         model_name=settings.EMBEDDING_MODEL_NAME,
-        cache_folder=local_model_path
+        cache_folder=local_model_path,
+        trust_remote_code=True
        )
     print("Model loaded successfully")
     return embed_model

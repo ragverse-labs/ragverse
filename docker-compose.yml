@@ -161,6 +161,7 @@ services:
     volumes:
       - ./backend/app/app:/app/app
       - ./backend/app/data-source:/app/data-source
+      - /Users/dalmiamili/Perforce/argos_md_main/system:/app/data-source/
     ports:
       - "8000:8000"  # Expose backend port to host
     # environment:
@@ -228,6 +229,7 @@ services:
     volumes:
       - mongodb-configdb:/data/configdb
       - mongodb-data:/data/db
+      - ./backend/app/app:/app/app
     env_file:
       - ./frontend/.env.local
     environment:
@@ -327,7 +329,7 @@ services:
       options:
         max-size: "2k"
         max-file: "3"
-    image: milvusdb/milvus:v2.3.20
+    image: milvusdb/milvus:v2.3.21
     command: ["milvus", "run", "standalone"]
     security_opt:
       - seccomp:unconfined

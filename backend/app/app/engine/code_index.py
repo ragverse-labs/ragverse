@@ -25,12 +25,13 @@ from app.engine import configuration
 class CodeIndex:
     def __init__(
         self,
-        collection_name: str = "codebase",
-        overwrite_collection: bool = False
+        collection_name: str = "cpp_csharp_codebase",
+        overwrite_collection: bool = False,
+        device: str | None = None
     ):
         self.collection_name = collection_name
-        self.milvus_host = settings.MILVUS_URL
-        self.milvus_port = settings.MI
+        self.milvus_host = "ragv_milvus-standalone"
+        self.milvus_port = settings.MILVUS_PORT
         
         # Auto-detect device if not specified
         if device is None:
@@ -80,11 +81,9 @@ class CodeIndex:
         
         # Initialize vector store with detected dimensions
         self.vector_store = MilvusVectorStore(
-            host=self.milvus_host,
-            port=self.milvus_port,
+            uri="/tmp/milvus_llamaindex.db",
             collection_name=self.collection_name,
-            dim=self.embedding_dim,
-            overwrite=overwrite_collection
+            dim=1024,
         )
         
         # Initialize storage context
@@ -97,8 +96,8 @@ class CodeIndex:
         try:
             connections.connect(
                 alias="default",
-                host=self.milvus_host,
-                port=self.milvus_port
+                host="ragv_milvus-standalone",
+                port="19530"
             )
             print(f"Connected to Milvus at {self.milvus_host}:{self.milvus_port}")
         except Exception as e:
@@ -479,12 +478,12 @@ def main():
     # Initialize RAG system with HuggingFace embeddings and Ollama LLM
     rag = CodeIndex(
         collection_name="cpp_csharp_codebase",
-        overwrite_collection=False
-        # milvus_host="localhost",
-        # milvus_port=19530,
+        overwrite_collection=True,
+        # milvus_host="ragv_milvus-standalone",
+        # milvus_port="19530",
         # embedding_model="Salesforce/SFR-Embedding-Code-400M_R",
         # llm_model="deepseek-coder-v2:16b-lite-instruct-q5_K_M",
-        # device=None,
+        device=None,
       
     )
     
