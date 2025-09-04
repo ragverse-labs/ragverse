@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 from typing import List, Dict, Optional
 import torch
-from app.core.config import settings
+# from app.core.config import settings
 # LlamaIndex imports
 from llama_index.core import (
     VectorStoreIndex,
@@ -20,18 +20,18 @@ from llama_index.llms.ollama import Ollama
 # Milvus imports
 from pymilvus import connections, utility, Collection
 
-from app.engine import configuration
+# from app.engine import configuration
 
 class CodeIndex:
     def __init__(
         self,
-        collection_name: str = "cpp_csharp_codebase",
+        collection_name: str = "machinecontrolcpp",
         overwrite_collection: bool = False,
         device: str | None = None
     ):
         self.collection_name = collection_name
         self.milvus_host = "ragv_milvus-standalone"
-        self.milvus_port = settings.MILVUS_PORT
+        # self.milvus_port = settings.MILVUS_PORT
         
         # Auto-detect device if not specified
         if device is None:
@@ -48,7 +48,7 @@ class CodeIndex:
         self._connect_milvus()
         
         self.embed_model = HuggingFaceEmbedding(
-            model_name=settings.EMBEDDING_MODEL_NAME,
+            model_name='Salesforce/SFR-Embedding-Code-400M_R',
             device=self.device,
             trust_remote_code=True,
             embed_batch_size=32 if self.device != "cpu" else 8,
@@ -65,23 +65,23 @@ class CodeIndex:
         self._check_collection_compatibility(overwrite_collection)
         
         # # Initialize Ollama LLM
-        # self.llm = Ollama(
-        #     model=llm_model,
-        #     base_url=ollama_base_url,
-        #     temperature=0.1,
-        #     context_window=4096,
-        #     request_timeout=120.0
-        # )
+        self.llm = Ollama(
+            model="deepseek-coder-v2:16b-lite-instruct-q5_K_M",
+            base_url="http://localhost:11434",
+            temperature=0.1,
+            context_window=4096,
+            request_timeout=120.0
+        )
         
-        # # Configure LlamaIndex settings
-        # Settings.embed_model = self.embed_model
-        # Settings.llm = self.llm
-        # Settings.chunk_size = 512
-        # Settings.chunk_overlap = 50
+        # Configure LlamaIndex settings
+        Settings.embed_model = self.embed_model
+        Settings.llm = self.llm
+        Settings.chunk_size = 512
+        Settings.chunk_overlap = 50
         
         # Initialize vector store with detected dimensions
         self.vector_store = MilvusVectorStore(
-            uri="/tmp/milvus_llamaindex.db",
+            uri="http://localhost:19530",
             collection_name=self.collection_name,
             dim=1024,
         )
@@ -96,10 +96,10 @@ class CodeIndex:
         try:
             connections.connect(
                 alias="default",
-                host="ragv_milvus-standalone",
+                host="localhost",
                 port="19530"
             )
-            print(f"Connected to Milvus at {self.milvus_host}:{self.milvus_port}")
+            print(f"Connected to Milvus at {self.milvus_host}:")
         except Exception as e:
             print(f"Failed to connect to Milvus: {e}")
             raise
@@ -477,7 +477,7 @@ class CodeIndex:
 def main():
     # Initialize RAG system with HuggingFace embeddings and Ollama LLM
     rag = CodeIndex(
-        collection_name="cpp_csharp_codebase",
+        collection_name="machinecontrolcpp",
         overwrite_collection=True,
         # milvus_host="ragv_milvus-standalone",
         # milvus_port="19530",
@@ -539,5 +539,5 @@ if __name__ == "__main__":
     
     # Make sure Ollama has the LLM model:
     # ollama pull deepseek-coder-v2:16b-lite-instruct-q5_K_M
-    configuration.init_settings()
+    # configuration.init_settings()
     main()

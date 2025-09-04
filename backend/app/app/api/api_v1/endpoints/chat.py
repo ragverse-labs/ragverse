@@ -288,9 +288,10 @@ async def chat(
     try:
 
         content_details=json_to_class(lastMessage.content)
+        content_details.book_name = "machinecontrolcpp"
         engine = manager.get_engine(content_details.book_name, content_details.user_id, resetChat)
         input_query = content_details.content
- 
+        print(input_query)
         # if content_details.from_language != "eng_Latn":
         #     input_query = await collect_translation(input_query, content_details.from_language, "eng_Latn")
 
@@ -300,10 +301,10 @@ async def chat(
      
         # input_query += ". Answer in the context of the " + content_details.book_name + " ONLY."
        
-        resp =  engine.stream_chat(input_query)
-
-        response_content = await stream_response(request, resp.response_gen)
-
+        resp =  engine.chat(input_query)
+        response_content = resp.response
+        # response_content = await stream_response(request, resp.response_gen)
+        print(response_content)
 
     except Exception as e:
         response_content = "The book you're searching for is not available at the moment, or something went wrong. Please try again." 

@@ -19,7 +19,7 @@ class QueryEngineToolsLoader:
         self.url = settings.MILVUS_URL
         self.query_indexes: Dict[str, VectorStoreIndex] = {}
         self.load_indices()
-        self.code_index = CodeIndex()
+        # self.code_index = CodeIndex()
         self.prompt_manager = PromptManager()
         self.chat_store  = RedisChatStore(redis_url=settings.REDIS_CHAT_STORE_URL, ttl=300)
        
@@ -40,22 +40,36 @@ class QueryEngineToolsLoader:
                 # collections = ["research", "united_nations", "medical_manuals", "rbi_documents"]
                 # collections = model_data.get_books()
                 print("for loading indices")
+
+                   # ADD THIS BLOCK BEFORE CREATING THE VECTOR STORE
+                from pymilvus import connections, Collection, utility
+                
+                # Connect to Milvus
+                connections.connect("default", host="ragv_milvus-standalone", port=19530)
+                
+                # Load the collection
+                collection_name = "machinecontrolcpp"
+                if utility.has_collection(collection_name):
+                    collection = Collection(collection_name)
+                    collection.load()  # THIS IS THE KEY LINE!
+                    print(f"Loaded collection '{collection_name}' with {collection.num_entities} entities")
+        
+
                 # print(collections)
                 # for collection in collections:
                     # collection_name=collection["identifier"]
-                collection_name="cpp_csharp_codebase"
+                # collection_name="machinecontrolcpp"
                 m_vector_store = MilvusVectorStore(
-                        uri="/tmp/milvus_llamaindex.db",
-                        # uri="/app/app/milvus_llamaindex.db", 
+                        # uri="/tmp/milvus_llamaindex.db",
+                        uri=self.url, 
                         dim=1024, collection_name=collection_name)
                     
                 book_index = VectorStoreIndex.from_vector_store(vector_store=m_vector_store)
-                self.health_check(book_index.as_query_engine())
+                self.health_check(book_index.as_query_engine(verbose=True))
                 self.query_indexes[collection_name] = book_index
             except Exception as e:
                 self.index_loaded = False
                 print(f"Failed to load indices: {e}")
-            # milvus_client.close()
 
             self.index_loaded = True
             return self.index_loaded
@@ -78,22 +92,27 @@ class QueryEngineToolsLoader:
             
             if reset_chat:
                 chat_memory.reset()
-            if book_name == settings.RAG_TYPE: 
+            # if book_name == settings.RAG_TYPE: 
                
-                index = self.code_index.load_existing_index()
-            else:
-                index = self.query_indexes[book_name]
-
+            #     index = self.code_index.load_existing_index()
+            # else:
+            index = self.query_indexes[book_name]
+            
+            print("2....")
+            print(index)
             prmpt = self.prompt_manager.get_system_prompt(prompt_type=book_name)
-            chat_engine = index.as_chat_engine(chat_mode="context", streaming=True, 
-                                                            memory=chat_memory,  
-                                                            similarity_top_k=1,
-                                                            context_prompt=prmpt,
+            print("3....")
+            print(prmpt)
+            chat_engine = index.as_chat_engine(chat_mode="condense_question",
+                                                            # memory=chat_memory,  
+                                                            # similarity_top_k=3,
+                                                            # context_prompt=prmpt,
                                                             verbose=True)
-
+            str1 = chat_engine.chat("Explain machine Control")
+            print(str1)
         except Exception as e:
             # change the default
-            index  =  self.query_indexes["codebase_collection"]
+            index  =  self.query_indexes["machinecontrolcpp"]
             chat_engine = index.as_chat_engine(chat_mode="context", streaming=True, 
                                                             context_prompt=self.prompt_manager.get_system_prompt(prompt_type=book_name),
                                                             verbose=True)
