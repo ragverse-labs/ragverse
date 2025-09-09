@@ -292,19 +292,11 @@ async def chat(
         engine = manager.get_engine(content_details.book_name, content_details.user_id, resetChat)
         input_query = content_details.content
         print(input_query)
-        # if content_details.from_language != "eng_Latn":
-        #     input_query = await collect_translation(input_query, content_details.from_language, "eng_Latn")
-
-        # Use the translation service asynchronously
-        # if content_details.from_language != "eng_Latn":
-        #     input_query = await translate_stream(input_query, content_details.from_language, "eng_Latn")
-     
-        # input_query += ". Answer in the context of the " + content_details.book_name + " ONLY."
-       
-        resp =  engine.chat(input_query)
-        response_content = resp.response
-        # response_content = await stream_response(request, resp.response_gen)
-        print(response_content)
+      
+        resp =  engine.stream_chat(input_query)
+        # response_content = resp.response
+        response_content = await stream_response(request, resp.response_gen)
+        # print(response_content)
 
     except Exception as e:
         response_content = "The book you're searching for is not available at the moment, or something went wrong. Please try again." 
@@ -312,24 +304,36 @@ async def chat(
 
     async def event_generator():
         try:
-                if content_details.to_language != "eng_Latn":
-                    # Stream translated response directly
-                    async for translated_chunk in translate_stream(response_content, "eng_Latn", content_details.to_language):
-                        # print("yielfing....")
-                        # print(translated_chunk)
-                        yield translated_chunk.encode()
-                else:
-                    # Stream original response directly
-                    for chunk in response_content:
-                        yield chunk.encode()
-
-
+            for chunk in response_content:
+                # SSE format requires "data: " prefix and double newline
+                yield chunk.encode()
         except Exception as e:
             print(f"Error while processing streaming response: {e}")
-            yield b"An error occurred. Please try again."
+            yield f"data: An error occurred. Please try again.\n\n".encode()
+        finally:
+            # Send closing event
+            yield f"data: [DONE]\n\n".encode()
 
-    # Return StreamingResponse using raw text
-    return StreamingResponse(event_generator(), media_type="text/event-stream")
+    return StreamingResponse(
+        event_generator(), 
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",  # Disable Nginx buffering
+        }
+    )
+
+
+    # async def event_generator():
+    #     try:
+    #             for chunk in response_content:
+    #                     yield chunk.encode()
+    #     except Exception as e:
+    #         print(f"Error while processing streaming response: {e}")
+    #         yield b"An error occurred. Please try again."
+
+    # # Return StreamingResponse using raw text
+    # return StreamingResponse(event_generator(), media_type="text/event-stream")
 
    
 

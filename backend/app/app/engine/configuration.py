@@ -1,5 +1,6 @@
 from llama_index.core.settings import Settings
 from llama_index.llms.ollama import Ollama
+import torch
 from llama_index.llms.groq import Groq
 from app.core.config import settings
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
@@ -14,11 +15,23 @@ def get_embed_model():
     # Construct the local path using HF_HOME
     # local_model_path = os.path.join(hf_home, "e5-base-v2")
     local_model_path=hf_home
+    # embed_model = HuggingFaceEmbedding(
+    #     model_name=settings.EMBEDDING_MODEL_NAME,
+    #     cache_folder=local_model_path,
+    #     trust_remote_code=True,
+        
+    #    )
+    # Optimize embedding model initialization
     embed_model = HuggingFaceEmbedding(
         model_name=settings.EMBEDDING_MODEL_NAME,
         cache_folder=local_model_path,
-        trust_remote_code=True
-       )
+        trust_remote_code=True,
+        # Add these optimizations
+        # max_length=512,  # Limit max sequence length
+        # embed_batch_size=10,  # Smaller batch size for large embeddings
+        # device="cuda" if torch.cuda.is_available() else "cpu",
+     
+    )
     print("Model loaded successfully")
     return embed_model
 
@@ -59,7 +72,10 @@ def get_ollama_llm():
     return Ollama(
         model=settings.LLM_MODEL_NAME,  
         base_url=settings.LLM_URL,
-        completion_only=True  
+        completion_only=True,
+        request_timeout=600,
+        context_window=8192,  # Reduce from 163K!
+        num_ctx=8192,  # Explicitly limit context
     )
 
 

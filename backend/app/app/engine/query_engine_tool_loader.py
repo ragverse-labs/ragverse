@@ -104,12 +104,13 @@ class QueryEngineToolsLoader:
             print("3....")
             print(prmpt)
             chat_engine = index.as_chat_engine(chat_mode="condense_question",
-                                                            # memory=chat_memory,  
-                                                            # similarity_top_k=3,
+                                                            streaming=True, 
+                                                            memory=chat_memory,  
+                                                            similarity_top_k=1,
                                                             # context_prompt=prmpt,
                                                             verbose=True)
-            str1 = chat_engine.chat("Explain machine Control")
-            print(str1)
+            # str1 = chat_engine.chat("Explain machine Control")
+            # print(str1)
         except Exception as e:
             # change the default
             index  =  self.query_indexes["machinecontrolcpp"]
