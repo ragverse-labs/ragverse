@@ -1,0 +1,30 @@
+# Core dependencies
+python-multipart>=0.0.5
+email-validator>=1.3.0
+requests>=2.28.1
+celery>=5.2.7
+passlib[bcrypt]>=1.7.4
+tenacity>=8.1.0
+emails>=0.6.0
+raven>=6.10.0
+jinja2>=3.1.2
+python-jose[cryptography]>=3.3.0
+pydantic>=2.8.0,<3.0.0
+pydantic-settings>=2.0.3
+httpx>=0.23.1
+
+# Database
+psycopg2-binary>=2.9.5
+motor>=3.7.0
+odmantic>=1.0.2
+
+# Security
+argon2-cffi==23.1.0
+argon2-cffi-bindings==21.2.0
+
+
+# Testing
+pytest==7.4.2
+pytest-cov==4.1.0
+pytest-asyncio>=0.21.0
+
