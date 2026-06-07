@@ -228,7 +228,7 @@ export class UserDb {
       userId: this._userId,
       displayName: userName!,
       theme: 'dark',
-      defaultBook: 'bhagvad-gita',
+      defaultBook: 'Code',
       defaultLanguage: 'eng_Latn',
       sourceLanguage: 'eng_Latn',
       defaultTemperature: 1.0,

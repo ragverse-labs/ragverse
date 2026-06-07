@@ -3,7 +3,7 @@ from app.engine.index_creator import (
     create_index_for_data_source,
 
 )
-from backend.app.app.engine.code_index import CodeIndex
+from app.engine.code_index import CodeIndex
 from app.engine import configuration
 from app.core.config import settings
 

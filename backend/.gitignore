@@ -1,4 +1,5 @@
 __pycache__
 app.egg-info
-
+*.db
 .DS_Store
+!requirements.txt

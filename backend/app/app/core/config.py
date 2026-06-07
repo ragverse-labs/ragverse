@@ -86,6 +86,7 @@ class Settings(BaseSettings):
     REDIS_CHAT_STORE_URL: str = ""
     RAG_TYPE: str = ""
     CODEBASE_PATH: str = ""
+    MILVUS_PORT: str = "19530"
 settings = Settings()
 
 
